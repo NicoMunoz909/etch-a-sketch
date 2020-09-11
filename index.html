@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+    <style>
+        body {
+            background-image: linear-gradient(90deg,white 27.5%,rgb(100, 50, 50) 28%,rgb(80, 29, 29) 29%, rgb(165, 106, 106) 29.5%);
+        }
+        h1 {
+            font-family: 'Lobster', cursive;
+            margin:auto;
+            font-size: 12vmin;
+            font-weight: lighter;
+            color: rgb(218, 185, 0);
+            text-shadow: -2px -2px 2px rgb(155, 124, 38),
+                         1px -2px 1px rgb(240, 181, 20),
+                         -1px 2px 1px rgb(97, 22, 22) ;
+            width: 100%;
+            text-align: center;
+        }
+        h2 {
+            text-align: center;
+        }
+        #wrapper {
+            display: flex;
+            justify-content: space-between;
+        }
+        @media (max-width: 1024px) {
+            #wrapper {
+                flex-direction: column;
+            }
+            #info {
+                width: 100% !important;
+            }
+            body {
+                background-image: unset;
+                background-color:rgb(180, 67, 67);
+            }
+        }
+        #info {
+            width: 20%;
+            flex-shrink: 2;
+            font-family: 'Roboto', sans-serif;
+            text-shadow: -1px -1px 1px rgb(184, 182, 182);
+        }
+        #container {
+            display: grid;
+            width: 65vmin;
+            height: 65vmin;
+            margin: auto;
+            position: relative;
+            border-radius: 30px;
+            background-color: white;
+            box-shadow: 8px 8px 3px rgb(97, 22, 22), 
+                        -8px -8px 3px rgb(97, 22, 22),
+                        8px -8px 3px rgb(97, 22, 22),
+                        -8px 8px 3px rgb(97, 22, 22)/*,
+                        2px 2px 1px rgb(44, 18, 18) inset,
+                        -2px -2px 1px rgb(44, 18, 18) inset,
+                        -2px 2px 1px rgb(44, 18, 18) inset,
+                        2px -2px 1px rgb(44, 18, 18) inset*/ ;
+            overflow: hidden;
+        }
+        #outer-frame {
+            margin: auto;
+            border-radius: 2%;
+            background-color: rgb(107, 19, 19);
+            background-image:linear-gradient(90deg,rgb(199, 152, 152),rgb(218, 31, 31) 2%, rgb(209, 19, 19) 98%,rgb(197, 138, 138));
+            width: 95vmin;
+            height: 95vmin;
+            box-shadow: /*-3px -3px 2px rgb(51, 47, 47),*/
+                        -5px -5px 10px rgb(82, 28, 28) inset,
+                        5px 5px 10px rgb(82, 28, 28) inset;
+        }
+        .square {
+            background-color: white;
+        }
+        .hovered {
+            background-color: black;
+        }
+        #buttons {
+            display: flex;
+            justify-content: space-between;
+            align-content: center;
+            height: 10vmin;
+            margin: 2vmin 4vmin 0px 4vmin;
+        }
+        .controls {
+            border-radius: 50%;
+            width: 9vmin;
+            height: 9vmin;
+            background-image: radial-gradient(circle, white 60%,rgb(199, 184, 184) 62%,white 100%);
+            border: none;
+            box-shadow: 1px 1px 3px rgb(71, 69, 69),
+                        -1px -1px 3px rgb(71, 69, 69),
+                        1px -1px 3px rgb(71, 69, 69),
+                        -1px 1px 3px rgb(71, 69, 69);
+            color: rgb(226, 220, 212);
+            text-shadow: -1px -1px 1px rgb(83, 74, 74);
+            transition: all 0.02s;
+            font-size: 3vmin;
+        }
+        #vertical>.legend {
+            transform: rotate(270deg);
+        }
+        .legend {
+            width: fit-content;
+            height: fit-content;
+            margin: auto;
+            text-align: center;
+            position: relative;
+            bottom: 7vmin;
+            margin-bottom: -5vmin;
+            font-size: 6vmin;
+            font-weight: 900;
+            color:rgb(209, 19, 19);
+            text-shadow: -1px -1px 1px rgb(97, 8, 8);
+        }
+        #reset {
+            color: rgb(218, 185, 0);
+            font-family: 'Lobster', cursive;
+            font-size: 8vmin;
+            margin: 0;
+            text-shadow: -1px -1px 1px rgb(119, 11, 11);
+        }
+        #reset:hover {
+            cursor: pointer;
+            text-shadow:-1px -1px 1px rgb(119, 11, 11),
+                        -2px -2px 1px rgb(119, 11, 11);
+            color:rgb(192, 164, 3);
+        }
+        button:focus {
+            outline: none;
+        }
+    </style>
+    <head>
+        <title>Etch-a-Sketch</title>
+        <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div id="wrapper">
+            <div id="info">
+                <h2>Welcome to my Etch-a-Sketch!</h2>
+                <ul>How to use:
+                    <li>Click on 'New Grid' and select the size</li>
+                    <li>You can click on the grid to toggle mouse drawing on and off</li>
+                    <li>You can also draw with the arrow keys</li>
+                    <li>You can clear and re-size by clicking on 'New Grid'</li>
+                </ul>
+                <p>Note: Key drawing start 1 square off to the left and to the top so you can select from where to start drawing</p>
+            </div>
+            <div id="outer-frame">
+                <h1>Etch-a-Sketch</h1>
+                <div id="container"></div>
+                <div id="buttons">
+                    <div id="horizontal">
+                        <p class="legend">&lt &gt</p>
+                        <button  class="controls">H</button>
+                    </div>
+                    <p id="reset">New Grid</p>
+                    <div id="vertical">
+                        <p class="legend">&lt &gt</p>
+                        <button  class="controls">V</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        const container = document.querySelector('#container');
+        let squaresNumber = 0;
+        let horizontalCoord= 0;
+        let verticalCoord = 0;
+        let horizontalKnobDeg = 0;
+        let verticalKnobDeg = 0;
+        let isMouseDraw = false;
+
+        function drawGrid(){
+            squaresNumber = parseInt(prompt("How many squares per side do you want?"));
+            horizontalCoord = 0;
+            verticalCoord = 0;
+            restartGrid();
+            container.style.gridTemplateColumns = `repeat(${squaresNumber}, ${squaresNumber}fr)`;
+            container.style.gridTemplateRows = `repeat(${squaresNumber}, ${squaresNumber}fr)`;
+            let div;
+            for(let i=1;i<=squaresNumber*squaresNumber;i++){
+                div = document.createElement('div');
+                div.setAttribute('id',`item-${i}`);
+                div.setAttribute('class','square');
+                //div.addEventListener('mouseover',addClass);
+                container.appendChild(div);
+            }
+            window.addEventListener('keydown', keyDraw);
+        }
+
+        function keyDraw (e) {
+            if (e.keyCode != 37 && e.keyCode != 38 && e.keyCode != 39 && e.keyCode != 40) return;
+            const horizontalKnob = document.querySelector('#horizontal>.controls');
+            const verticalKnob = document.querySelector('#vertical>.controls');
+            switch (e.keyCode) {
+                case 37: 
+                    horizontalCoord <= 0 ? horizontalCoord = 0 : horizontalCoord --;
+                    horizontalKnobDeg -= 20;
+                    horizontalKnob.style.transform = `rotate(${horizontalKnobDeg}deg)`;
+                    if (horizontalCoord > 0 && verticalCoord > 0){
+                        document.querySelector(`#item-${horizontalCoord + (verticalCoord- 1)*squaresNumber}`).classList.add('hovered');
+                    }
+                    break;
+                case 38:
+                    verticalCoord <= 0 ? verticalCoord = 0 : verticalCoord --;
+                    verticalKnobDeg -= 20;
+                    verticalKnob.style.transform = `rotate(${verticalKnobDeg}deg)`;
+                    if (horizontalCoord > 0 && verticalCoord > 0){
+                        document.querySelector(`#item-${horizontalCoord + (verticalCoord- 1)*squaresNumber}`).classList.add('hovered');
+                    }
+                    break;
+                case 39: 
+                    horizontalCoord >= squaresNumber ? horizontalCoord = squaresNumber : horizontalCoord ++;
+                    horizontalKnobDeg += 20;
+                    horizontalKnob.style.transform = `rotate(${horizontalKnobDeg}deg)`;
+                    if (horizontalCoord > 0 && verticalCoord > 0){
+                        document.querySelector(`#item-${horizontalCoord + (verticalCoord- 1)*squaresNumber}`).classList.add('hovered');
+                    }
+                    break;
+                case 40:
+                    verticalCoord >= squaresNumber ? verticalCoord = squaresNumber : verticalCoord ++;
+                    verticalKnobDeg += 20;
+                    verticalKnob.style.transform = `rotate(${verticalKnobDeg}deg)`;
+                    if (horizontalCoord > 0 && verticalCoord > 0){
+                        document.querySelector(`#item-${horizontalCoord + (verticalCoord- 1)*squaresNumber}`).classList.add('hovered');
+                    }
+                    break;
+            }
+        }
+
+        function addClass() {
+            this.classList.add('hovered');
+        }
+
+        function restartGrid() {
+            horizontalCounter = 0;
+            verticalCoord = 0;
+            isMouseDraw = false;
+            let squares = document.querySelectorAll('.square');
+            squares.forEach(square => {
+                container.removeChild(square);
+                square.classList.remove('hovered');
+            });
+        }
+
+        function toggleMouseDraw(){
+            let div;
+            if (isMouseDraw) {
+                for(let i=1;i<=squaresNumber*squaresNumber;i++){
+                    div = document.querySelector(`#item-${i}`)
+                    div.removeEventListener('mouseover',addClass);
+                }
+                isMouseDraw = false;
+            }
+            else {
+                for(let i=1;i<=squaresNumber*squaresNumber;i++){
+                    div = document.querySelector(`#item-${i}`)
+                    div.addEventListener('mouseover',addClass);
+                }
+                isMouseDraw = true;
+            }  
+        }
+
+        
+
+        const resetButton = document.querySelector('#reset');
+        resetButton.addEventListener('click', drawGrid);
+
+        container.addEventListener('click', toggleMouseDraw);
+    </script>
+</html>
